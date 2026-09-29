@@ -1,0 +1,67 @@
+{
+  "plan": {
+    "branches": [
+      {
+        "nationality": "Indian",
+        "rank": "second_officer"
+      },
+      {
+        "nationality": "Filipino",
+        "rank": "chief_officer"
+      }
+    ],
+    "shared": {
+      "vessel_type": "tanker"
+    }
+  },
+  "candidates": [
+    {
+      "id": "DEMO-001",
+      "nationality": "Indian",
+      "rank": "second_officer",
+      "vessel_types": [
+        "tanker"
+      ],
+      "approved": true,
+      "current": true
+    },
+    {
+      "id": "DEMO-002",
+      "nationality": "Filipino",
+      "rank": "chief_officer",
+      "vessel_types": [
+        "tanker"
+      ],
+      "approved": true,
+      "current": true
+    },
+    {
+      "id": "DEMO-003",
+      "nationality": "Indian",
+      "rank": "chief_officer",
+      "vessel_types": [
+        "tanker"
+      ],
+      "approved": true,
+      "current": true
+    },
+    {
+      "id": "DEMO-004",
+      "nationality": "Indian",
+      "rank": "second_officer",
+      "vessel_types": null,
+      "approved": true,
+      "current": true
+    },
+    {
+      "id": "DEMO-005",
+      "nationality": "Indian",
+      "rank": "second_officer",
+      "vessel_types": [
+        "tanker"
+      ],
+      "approved": false,
+      "current": false
+    }
+  ]
+}

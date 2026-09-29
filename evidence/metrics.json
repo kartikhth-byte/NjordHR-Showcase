@@ -1,0 +1,36 @@
+{
+  "scope": "Selected historical aggregate evidence; no candidate or prompt records",
+  "parser": {
+    "date": "2026-07-08",
+    "model": "z-ai/glm-4.6",
+    "distinct_models_evaluated": 8,
+    "unique_prompts": 80,
+    "repeats": 3,
+    "cases": 240,
+    "micro_f1": 0.990990990990991,
+    "exact_matches": 232,
+    "exact_rate": 0.9666666666666667,
+    "scoring_note": "Rescored filter benchmark; branch semantics tested separately; best historical run after iteration"
+  },
+  "training": {
+    "base_model": "numind/NuExtract3",
+    "training_examples": 1463,
+    "training_context_tokens": 24576,
+    "lora_rank": 16,
+    "trainable_parameters": 21233664,
+    "trainable_percent": 0.4655995554170912,
+    "validation_documents": 469
+  },
+  "retrieval": {
+    "historical_corpus_candidates": 4967,
+    "successful_trials": 13,
+    "total_trials": 13,
+    "scope": "Historical known-item live retrieval experiment"
+  },
+  "ocr": {
+    "documents": 200,
+    "pages": 663,
+    "september_20_experimental_arms": 7,
+    "certified_accuracy_claim": false
+  }
+}
