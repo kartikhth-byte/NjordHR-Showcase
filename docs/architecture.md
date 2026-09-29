@@ -1,5 +1,33 @@
 # Architecture and engineering decisions
 
+[← Project overview](../README.md) · [Evaluation results](evaluations.md)
+
+## System diagram
+
+Expand or zoom the diagram in GitHub to inspect individual components.
+
+```mermaid
+flowchart TD
+    Sources[Email-to-cloud delivery / Drive / recruitment portal intake] --> Worker[Hosted ingestion worker]
+    Worker --> OCR[PDF-to-text / Markdown conversion]
+    OCR --> Extract[NuExtract3 + LoRA on RunPod]
+    Extract --> Review[Validation and review workflow]
+    Review --> DB[(Supabase approved/current facts)]
+    DB --> Cache[Hydrated search projection + freshness status]
+    Recruiter[React recruiter portal] --> API[Flask API on Railway]
+    API --> Plan[Single tool-call query planner]
+    Plan --> Filters[Deterministic hard-filter evaluation]
+    Cache --> Filters
+    Filters --> Soft[Separate semantic assessment where requested]
+    Soft --> Results[Evidence / saved runs / verified shortlists]
+    API --> Logs[Run events / prompt audits / error telemetry]
+    Worker --> Logs
+    Results --> Feedback[Matching feedback and ambiguity review]
+    Logs --> Ops[Operator portal and engineering review]
+    Feedback --> Ops
+    Ops --> Improvements[Regression cases / parser and extraction improvements]
+```
+
 ## Hosted application
 
 The supported production shape is a Railway API engine plus hosted worker, Supabase, and a RunPod model endpoint. The working repository separates the hosted baseline (`railway-m1`) from ongoing retraining research. Historical local-agent and Electron paths are not the current product contract.

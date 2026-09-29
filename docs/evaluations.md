@@ -1,6 +1,21 @@
 # Evaluation methods and recorded results
 
+[← Project overview](../README.md) · [View Python example](../examples/matching_demo.py)
+
 These are historical project records, not independently audited performance guarantees. Counts reflect each experiment's own corpus and should not be combined into one dataset-size claim.
+
+## Results at a glance
+
+| Evaluation | Scope / result |
+|---|---|
+| Parser benchmark | 8 models; 80 prompts; selected runs repeated 3 times |
+| Best recorded parser run | 99.1% filter F1; 232/240 filter exact matches |
+| Known-item retrieval | 13/13 trials; historical 4,967-candidate corpus |
+| Extraction validation | 469 documents; historical value F1 0.8911, with later label-quality concerns |
+| Label QA | 2,429 teacher labels reviewed by automated quality checks |
+| OCR challenge cohort | 200 documents / 663 pages; no certified full-fidelity score claimed |
+
+The sections below explain the scoring boundaries and evidence limitations.
 
 ## Prompt parsing
 

@@ -1,5 +1,7 @@
 # Synthetic workflow walkthrough
 
+[← Project overview](../README.md) · [View Python example](../examples/matching_demo.py)
+
 This walkthrough describes the implemented product workflow using invented candidates. It is not a screenshot or recording of the live service.
 
 ## Recruiter
