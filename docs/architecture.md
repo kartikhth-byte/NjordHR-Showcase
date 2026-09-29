@@ -2,31 +2,53 @@
 
 [← Project overview](../README.md) · [Evaluation results](evaluations.md)
 
-## System diagram
+## Architecture maps
 
-Expand or zoom the diagram in GitHub to inspect individual components.
+Three connected views separate document preparation, online search, and the engineering feedback loop. Repeated component names refer to the same system components. Solid arrows show processing or evidence flow; dashed arrows show reviewed engineering updates.
+
+### 1. Ingestion and approved facts
 
 ```mermaid
 flowchart TD
-    Sources[Email-to-cloud delivery / Drive / recruitment portal intake] --> Worker[Hosted ingestion worker]
-    Worker --> OCR[PDF-to-text / Markdown conversion]
-    OCR --> Extract[NuExtract3 + LoRA on RunPod]
-    Extract --> Review[Validation and review workflow]
-    Review --> DB[(Supabase approved/current facts)]
-    DB --> Cache[Hydrated search projection + freshness status]
-    Recruiter[React recruiter portal] --> API[Flask API on Railway]
-    API --> Plan[Single tool-call query planner]
-    Plan --> Filters[Deterministic hard-filter evaluation]
-    Cache --> Filters
-    Filters --> Soft[Separate semantic assessment where requested]
-    Soft --> Results[Evidence / saved runs / verified shortlists]
-    API --> Logs[Run events / prompt audits / error telemetry]
-    Worker --> Logs
-    Results --> Feedback[Matching feedback and ambiguity review]
-    Logs --> Ops[Operator portal and engineering review]
-    Feedback --> Ops
-    Ops --> Improvements[Regression cases / parser and extraction improvements]
+    Sources[Email / Drive / portal intake] --> Worker[Hosted worker: PDF to Markdown]
+    Worker --> Extract[NuExtract3 + LoRA on RunPod]
+    Extract --> Review[Validation and review]
+    Review --> DB[(Supabase: approved/current facts)]
 ```
+
+The worker orchestrates document conversion and extraction. Only approved/current facts feed the search projection in the next view.
+
+### 2. Recruiter search
+
+```mermaid
+flowchart TD
+    UI[React recruiter portal] --> API[Flask API on Railway]
+    API --> Plan[One tool-call query planner]
+    Facts[(Supabase approved/current facts)] --> Cache[Hydrated search projection]
+    Plan --> Filters[Deterministic hard filters]
+    Cache --> Filters
+    Filters -->|Filter-only search| Results[Evidence and shortlists]
+    Filters -->|Soft criteria requested| Soft[Separate semantic assessment]
+    Soft --> Results
+```
+
+The projection reports freshness and retains last-good data if hydration fails. Semantic assessment runs when requested; filter-only searches go directly to results. This view describes prompt-based search; direct filter-only requests do not require an LLM parse.
+
+### 3. Observability and reviewed improvements
+
+```mermaid
+flowchart TD
+    Parser[Query parsing] --> Signals[Run logs and prompt audits]
+    Extraction[Document extraction] --> Signals
+    Matching[Candidate matching] --> Feedback[Ambiguity and reviewer feedback]
+    Signals --> Review[Operator and engineering review]
+    Feedback --> Review
+    Review --> Checks[Regression cases and evaluation]
+    Checks -.->|Reviewed parser updates| Parser
+    Checks -.->|Reviewed extraction updates| Extraction
+```
+
+The dashed return paths represent engineering changes selected and checked using evidence. They do not represent automatic retraining or automatic acceptance of reviewer feedback as ground truth. Model changes require their own data, evaluation, and deployment decisions.
 
 ## Hosted application
 

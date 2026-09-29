@@ -45,8 +45,9 @@ flowchart TD
 flowchart TD
     A[Recruiter request] --> B[One tool-call query plan]
     B --> C[Hard filters over approved facts]
-    C --> D[Separate semantic assessment]
-    D --> E[Review and shortlist]
+    C -->|Filter-only search| E[Review and shortlist]
+    C -->|Soft criteria requested| D[Semantic assessment]
+    D --> E
 ```
 
 The application runs on Railway with Supabase persistence and RunPod inference. Hard requirements are evaluated over approved/current facts; soft criteria receive a separate assessment. [See the full architecture and feedback loop](docs/architecture.md).
